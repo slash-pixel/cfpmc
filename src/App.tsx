@@ -1,4 +1,5 @@
 
+import React, { useState } from 'react';
 import { 
   Church, 
   GraduationCap, 
@@ -7,10 +8,14 @@ import {
   Globe, 
   CheckCircle, 
   MapPin, 
-  Phone 
+  Phone,
+  Menu, 
+  X     
 } from 'lucide-react';
 
 export default function CfpmcApp() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <div className="bg-white font-sans text-[#161c23] antialiased">
       {/* 1. HEADER */}
@@ -26,6 +31,7 @@ export default function CfpmcApp() {
             </div>
           </div>
 
+          {/* Navigation Desktop */}
           <nav className="hidden md:flex items-center gap-8 lg:gap-10">
             <a href="#accueil" className="text-[16px] font-semibold text-gray-700 hover:text-[#fcc019] transition-colors">Accueil</a>
             <a href="#a-propos" className="text-[16px] font-semibold text-gray-700 hover:text-[#fcc019] transition-colors">À propos</a>
@@ -33,15 +39,51 @@ export default function CfpmcApp() {
             <a href="#contact" className="text-[16px] font-semibold text-gray-700 hover:text-[#fcc019] transition-colors">Contact</a>
           </nav>
 
-          <div className="flex items-center">
+          {/* Bouton Menu Burger (Mobile uniquement) */}
+          <div className="md:hidden flex items-center">
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-gray-700 hover:text-[#007abf] transition-colors focus:outline-none p-2"
+              aria-label="Menu"
+            >
+              {isMobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Menu Déroulant Mobile */}
+        {isMobileMenuOpen && (
+          <div className="absolute top-20 left-0 w-full bg-white border-b border-gray-100 shadow-lg flex flex-col md:hidden z-40 py-4 px-6 gap-4">
+            <a 
+              href="#accueil" 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-[16px] font-semibold text-gray-700 hover:text-[#fcc019] transition-colors block py-2"
+            >
+              Accueil
+            </a>
+            <a 
+              href="#a-propos" 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-[16px] font-semibold text-gray-700 hover:text-[#fcc019] transition-colors block py-2"
+            >
+              À propos
+            </a>
+            <a 
+              href="#nos-preparations" 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-[16px] font-semibold text-gray-700 hover:text-[#fcc019] transition-colors block py-2"
+            >
+              Nos préparations
+            </a>
             <a 
               href="#contact" 
-              className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-[#007abf] text-white text-sm font-bold hover:bg-[#006299] transition-all shadow-sm hover:shadow-md"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-[16px] font-semibold text-gray-700 hover:text-[#fcc019] transition-colors block py-2"
             >
               Contact
             </a>
           </div>
-        </div>
+        )}
       </header>
 
       <main className="w-full pt-24 pb-16">
@@ -230,7 +272,7 @@ export default function CfpmcApp() {
           </div>
         </section>
 
-        {/* 5. SECTION INSCRIPTION & CONTACT (Sans le formulaire) */}
+        {/* 5. SECTION INSCRIPTION & CONTACT */}
         <section className="w-full py-20 bg-white" id="contact">
           <div className="max-w-[800px] mx-auto px-6 lg:px-12">
             <div className="bg-[#f8fafc] p-8 md:p-12 rounded-3xl border border-gray-200/80 flex flex-col items-center text-center gap-8 shadow-sm">
@@ -260,7 +302,6 @@ export default function CfpmcApp() {
                 </div>
 
                 <div className="flex flex-col gap-3">
-                  {/* Numéro 1 */}
                   <div className="flex items-center justify-between bg-white/80 hover:bg-white px-4 py-3 rounded-xl transition-all shadow-sm">
                     <a href="tel:+237693324149" className="text-sm md:text-base font-extrabold text-[#161c23] hover:text-[#007abf] transition-colors">
                       +237 693 32 41 49
@@ -270,7 +311,6 @@ export default function CfpmcApp() {
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#25D366] text-white text-xs font-bold hover:bg-[#20ba5a] transition-all shadow-sm"
-                      title="Ouvrir WhatsApp"
                     >
                       <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                         <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
@@ -279,7 +319,6 @@ export default function CfpmcApp() {
                     </a>
                   </div>
 
-                  {/* Numéro 2 */}
                   <div className="flex items-center justify-between bg-white/80 hover:bg-white px-4 py-3 rounded-xl transition-all shadow-sm">
                     <a href="tel:+237654097481" className="text-sm md:text-base font-extrabold text-[#161c23] hover:text-[#007abf] transition-colors">
                       +237 654 09 74 81
@@ -289,7 +328,6 @@ export default function CfpmcApp() {
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#25D366] text-white text-xs font-bold hover:bg-[#20ba5a] transition-all shadow-sm"
-                      title="Ouvrir WhatsApp"
                     >
                       <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                         <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
@@ -298,7 +336,6 @@ export default function CfpmcApp() {
                     </a>
                   </div>
 
-                  {/* Numéro 3 */}
                   <div className="flex items-center justify-between bg-white/80 hover:bg-white px-4 py-3 rounded-xl transition-all shadow-sm">
                     <a href="tel:+237670361490" className="text-sm md:text-base font-extrabold text-[#161c23] hover:text-[#007abf] transition-colors">
                       +237 670 36 14 90
@@ -308,7 +345,6 @@ export default function CfpmcApp() {
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#25D366] text-white text-xs font-bold hover:bg-[#20ba5a] transition-all shadow-sm"
-                      title="Ouvrir WhatsApp"
                     >
                       <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                         <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
@@ -334,11 +370,13 @@ export default function CfpmcApp() {
         </section>
       </main>
 
-      {/* 6. FOOTER */}
+      {/* 6. FOOTER (MIS A JOUR) */}
       <footer className="bg-[#007abf] text-white pt-20 pb-10 shadow-inner">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-            <div className="flex flex-col gap-6">
+            
+            {/* Colonne 1 : Logo - Centrée sur mobile */}
+            <div className="flex flex-col items-center md:items-start text-center md:text-left gap-6">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-[#fcc019] rounded flex items-center justify-center text-[#161c23] font-extrabold text-xl">
                   CF
@@ -350,19 +388,21 @@ export default function CfpmcApp() {
               </p>
             </div>
 
-            <div className="flex flex-col gap-4">
+            {/* Colonne 2 : Nos Préparations - Centrée sur mobile */}
+            <div className="flex flex-col items-center md:items-start text-center md:text-left gap-4">
               <h4 className="text-lg font-bold text-[#fcc019]">Nos Préparations</h4>
-              <ul className="flex flex-col gap-3 text-sm text-white/80">
-                <li><a href="#nos-preparations" className="hover:text-[#fcc019] transition-colors">Français sur Objectifs Spécifiques (FOS)</a></li>
-                <li><a href="#nos-preparations" className="hover:text-[#fcc019] transition-colors">Anglais sur Objectifs Spécifiques (ESP)</a></li>
+              <ul className="flex flex-col items-center md:items-start gap-3 text-sm text-white/80">
+                <li><a href="#nos-preparations" className="hover:text-[#fcc019] transition-colors">Français (FOS)</a></li>
+                <li><a href="#nos-preparations" className="hover:text-[#fcc019] transition-colors">Anglais (ESP)</a></li>
                 <li><a href="#nos-preparations" className="hover:text-[#fcc019] transition-colors">Préparation TCF / TEF</a></li>
                 <li><a href="#nos-preparations" className="hover:text-[#fcc019] transition-colors">Préparation TOEFL / IELTS</a></li>
               </ul>
             </div>
 
-            <div className="flex flex-col gap-4">
+            {/* Colonne 3 : Liens Rapides - Centrée sur mobile */}
+            <div className="flex flex-col items-center md:items-start text-center md:text-left gap-4">
               <h4 className="text-lg font-bold text-[#fcc019]">Liens Rapides</h4>
-              <ul className="flex flex-col gap-3 text-sm text-white/80">
+              <ul className="flex flex-col items-center md:items-start gap-3 text-sm text-white/80">
                 <li><a href="#accueil" className="hover:text-[#fcc019] transition-colors">Accueil</a></li>
                 <li><a href="#a-propos" className="hover:text-[#fcc019] transition-colors">À propos</a></li>
                 <li><a href="#nos-preparations" className="hover:text-[#fcc019] transition-colors">Toutes nos préparations</a></li>
@@ -370,22 +410,23 @@ export default function CfpmcApp() {
               </ul>
             </div>
 
-            <div className="flex flex-col gap-4">
+            {/* Colonne 4 : Contact - Centrée sur mobile avec icônes bien alignées */}
+            <div className="flex flex-col items-center md:items-start text-center md:text-left gap-4">
               <h4 className="text-lg font-bold text-[#fcc019]">Contact</h4>
-              <ul className="flex flex-col gap-3 text-sm text-white/80">
-                <li className="flex items-start gap-3">
+              <ul className="flex flex-col gap-3 text-sm text-white/80 w-full">
+                <li className="flex items-start justify-center md:justify-start gap-3">
                   <MapPin className="w-5 h-5 text-[#fcc019] shrink-0 mt-0.5" />
-                  <span>Cathédrale Saints-Pierre-et-Paul,<br/>Douala, Cameroun</span>
+                  <span className="text-center md:text-left">Cathédrale Saints-Pierre-et-Paul,<br/>Douala, Cameroun</span>
                 </li>
-                <li className="flex items-center gap-2">
+                <li className="flex items-center justify-center md:justify-start gap-2">
                   <Phone className="w-4 h-4 text-[#fcc019] shrink-0" />
                   <a href="tel:+237693324149" className="hover:text-[#fcc019] transition-colors">+237 693 32 41 49</a>
                 </li>
-                <li className="flex items-center gap-2">
+                <li className="flex items-center justify-center md:justify-start gap-2">
                   <Phone className="w-4 h-4 text-[#fcc019] shrink-0" />
                   <a href="tel:+237654097481" className="hover:text-[#fcc019] transition-colors">+237 654 09 74 81</a>
                 </li>
-                <li className="flex items-center gap-2">
+                <li className="flex items-center justify-center md:justify-start gap-2">
                   <Phone className="w-4 h-4 text-[#fcc019] shrink-0" />
                   <a href="tel:+237670361490" className="hover:text-[#fcc019] transition-colors">+237 670 36 14 90</a>
                 </li>
@@ -393,7 +434,7 @@ export default function CfpmcApp() {
             </div>
           </div>
 
-          <div className="pt-8 border-t border-white/20 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/75">
+          <div className="pt-8 border-t border-white/20 flex flex-col items-center justify-center text-center gap-4 text-sm text-white/75">
             <p>© 2026 CFPMC - Archidiocèse de Douala. Tous droits réservés.</p>
           </div>
         </div>
