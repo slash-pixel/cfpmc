@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -29,6 +30,22 @@
   @media (max-width: 1024px) {
     font-size: 16px;
   }
+}
+@theme {
+  --color-cfpmc-red: #e80823;
+  --color-cfpmc-yellow: #FEE953;
+  --color-cfpmc-blue: #0199E8;
+  --color-cfpmc-darkblue: #0176b5;
+--font-pacifico: 'Pacifico', cursive;
+--font-caveat: 'Caveat', cursive;
+  --font-caveat-brush: 'Caveat Brush', cursive;
+  --font-leckerli: 'Leckerli One', cursive;
+  --font-satisfy: 'Satisfy';
+  --font-dancing: 'Dancing Script';
+  --font-kaushan: 'Kaushan Script', cursive;
+  --font-nanum: 'Nanum Brush Script', cursive;
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Poppins', sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
